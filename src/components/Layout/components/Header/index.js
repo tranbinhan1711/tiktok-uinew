@@ -1,17 +1,43 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark, faSpinner, faMagnifyingGlass, faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
-import Tippy from '@tippyjs/react/headless'
+import {
+    faCircleXmark,
+    faSpinner,
+    faMagnifyingGlass,
+    faEllipsisVertical,
+    faCircleQuestion,
+    faKeyboard,
+    faEarthAsia,
+    
+} from '@fortawesome/free-solid-svg-icons';
+import Tippy from '@tippyjs/react/headless';
 
 import Button from '~/components/Button';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
 import styles from './Header.module.scss';
 import images from '~/assets/images';
 import AccountItem from '~/components/AccountItem';
+import Menu from '~/components/Popper/Menu';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
+
+const MENU_ITEMS = [
+    {
+        icon: <FontAwesomeIcon icon={faEarthAsia} />,
+        title: 'English',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faCircleQuestion} />,
+        title: 'Feedback and help ',
+        to: '/feedback',
+    },
+    {
+        icon: <FontAwesomeIcon icon={faKeyboard} />,
+        title: 'Keyboard shortcuts',
+    },
+];
 
 function Header() {
     const [searchResult, setSearchResult] = useState([]);
@@ -19,58 +45,57 @@ function Header() {
     useEffect(() => {
         setTimeout(() => {
             setSearchResult([]);
-        },0);
-     },[]);
+        }, 0);
+    }, []);
 
-    
-    return <header className={cx('wrapper')}>
+    /**
+     * mấy cái scss thì quăg ra 1 bên riêng
+     * link vào thôi     kê
+     * để chung làm chi
+     */
+    return ( 
+        <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                
-                    <img src={images.logo} alt="tiktok" />
-                
+                <img src={images.logo} alt="tiktok" />
+
                 <Tippy
                     interactive
-                    visible= {searchResult.length > 0}
+                    visible={searchResult.length > 0}
                     render={(attrs) => (
-                        
-                            <div className={cx('search-result')} tabIndex="-1" {...attrs}>
-                               <PopperWrapper>
-                                    <h4 className={cx('search-title')}>
-                                        Accounts
-                                    </h4>
-                                <AccountItem/>
-                                <AccountItem/>
-                                <AccountItem/>
-                                <AccountItem/>  
-                                </PopperWrapper> 
-                            </div>
-                        
+                        <div className={cx('search-result')} tabIndex="-1" {...attrs}>
+                            <PopperWrapper>
+                                <h4 className={cx('search-title')}>Accounts</h4>
+                                <AccountItem />
+                                <AccountItem />
+                                <AccountItem />
+                                <AccountItem />
+                            </PopperWrapper>
+                        </div>
                     )}
                 >
                     <div className={cx('search')}>
-                        <input placeholder="Search accounts and videos" spellCheck={false}/>
+                        <input placeholder="Search accounts and videos" spellCheck={false} />
                         <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />                        
+                            <FontAwesomeIcon icon={faCircleXmark} />
                         </button>
-                            <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
+                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
                         <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} /> 
+                            <FontAwesomeIcon icon={faMagnifyingGlass} />
                         </button>
                     </div>
                 </Tippy>
                 <div classNames={cx('actions')}>
-                <Button text  >
-                        Upload
-                    </Button>
-                     <Button primary  >
-                        Log In
-                    </Button>
-                    
-                    <button className={cx('list')}>
-                            <FontAwesomeIcon icon={faEllipsisVertical} /> 
+                    <Button text>Upload</Button>
+                    <Button primary> Log In</Button>
+                    <Menu items={MENU_ITEMS}>
+                        <button className={cx('more-btn')}>
+                            <FontAwesomeIcon icon={faEllipsisVertical} />
                         </button>
+                    </Menu>
                 </div>
             </div>
-            </header>
-};
- export default Header;
+        </header>
+    );
+}
+export default Header;
+

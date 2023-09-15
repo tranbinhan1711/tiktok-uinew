@@ -1,4 +1,5 @@
 .wrapper {
+    align-items: center;
     font-size: 1.6rem;
     font-weight:700;
     min-width: 100px;
@@ -8,6 +9,8 @@
     background-color: var(--while);
     border: 1px solid transparent;
     margin-left: 8px;
+    width: auto;
+    
 
     + .wrapper{
         margin-left: 8px;
@@ -19,6 +22,18 @@
     }
 
 }
+
+.icon + .title,
+.title + .icon{
+    margin-left: 8px;
+}
+
+.icon{
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+}
+
 .primary{
     background: var(--primary);
     color: var(--while);

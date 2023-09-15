@@ -4,32 +4,48 @@ import styles from './Button.module.scss';
 
 const cx = classNames.bind(styles);
 
-function Button({ to, href, primary = false,outline = false , text= false,small = false,large = false,disabled = false,rounded = false,children, onClick, ...passProps}) {
-    let Comp = 'button';
-
+function Button({
+    to,
+    href,
+    primary = false,
+    outline = false,
+    text = false,
+    small = false,
+    large = false,
+    disabled = false,
+    rounded = false,
+    children,
+    leftIcon,
+    rightIcon,
+    className,
+    onClick,
+    ...passProps
+}) {
+    let Comp = 'button'; 
+// lạ hè
     const props = {
         onClick,
         ...passProps,
     };
 
-    if(disabled){
+    if (disabled) {
         Object.keys(props).forEach((key) => {
-            if (key.startsWith('on') && props[key] === 'function'){
+            if (key.startsWith('on') && props[key] === 'function') {
                 delete props[key];
             }
-        });  
+        });
     }
 
     if (to) {
-        props.to = to; 
+        props.to = to;
         Comp = Link;
     } else if (href) {
         props.href = href;
         Comp = 'a';
     }
 
-    const classes = cx('wrapper',{
-        [classNames]: classNames,
+    const classes = cx('wrapper', {
+        [className]: className,
         primary,
         outline,
         small,
@@ -37,14 +53,15 @@ function Button({ to, href, primary = false,outline = false , text= false,small 
         text,
         disabled,
         rounded,
-    }
-    );
+        
+    });
 
-    return (  
+    return (
         <Comp className={classes} {...props}>
-             
-            <span >{children}</span>
-
+            {leftIcon && <span className={cx('icon')}>{leftIcon}</span>}
+            <span className={cx('title')}>{children}</span>
+            {rightIcon && <span className={cx('icon')}></span>}
+            
         </Comp>
     );
 }
